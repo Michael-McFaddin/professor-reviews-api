@@ -6,3 +6,4 @@ const pool = new Pool({
   password: process.env.DBPASSWORD,
   port: 5432,
 });
+
