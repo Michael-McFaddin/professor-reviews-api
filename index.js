@@ -29,7 +29,6 @@ app.post('/professors', db.createProfessor)
 app.put('/professors/:id', db.updateProfessor)
 app.delete('/professors/:id', db.deleteProfessor)
 
-
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
 });
