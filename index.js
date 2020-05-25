@@ -5,7 +5,9 @@ require('dotenv').config;
 const port = process.env.PORT || 3000;
 const queries = require('./queries');
 const db = require('./queries');
+const cors = require('cors');
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -23,6 +25,11 @@ app.post('/reviews', db.createReview);
 app.put('/reviews/:id', db.updateReview);
 app.delete('/reviews/:id', db.deleteReview);
 
+app.get('/professors', db.getProfessors);
+app.get('/professors/:id', db.getProfessorById);
+app.post('/professors', db.createProfessor);
+app.put('/professors/:id', db.updateProfessor);
+app.delete('/professors/:id', db.deleteProfessor);
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
