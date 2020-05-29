@@ -66,11 +66,25 @@ const deleteReview = (request, response) => {
 };
 
 const getProfessors = (request, response) => {
-  pool.query('SELECT * FROM professors ORDER BY id ASC', (error, results) => {
+  pool.query('SELECT * FROM professors INNER JOIN reviews ON professors.id = reviews.professor_id', (error, results) => {
     if (error) {
       throw error;
     }
-    response.status(200).json(results.rows);
+    const professors = results.rows.reduce((acc, cur) => {
+      const index = acc.findIndex(professor => professor.professor_id === cur.professor_id)
+      if(index > -1) {
+        acc[index].reviews.push(cur);
+      } else {
+        const professor = {
+          ...cur,
+          reviews: []
+        };
+        professor.reviews.push(cur);
+        acc.push(professor)
+      }
+      return acc;
+    }, [])
+    response.status(200).json(professors);
   });
 };
 
